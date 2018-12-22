@@ -1,11 +1,14 @@
 What is AF
 -------------------------------------------------------------------------------------------------
 *The name of AF comes from air refueling.*
+
 *AF is a package of Go.*
+
 *You can use the AF write a graceful reload HTTP server easily.*
+
 **AF only support the Linux system now.**
 
-Featuer
+Featuers
 -------------------------------------------------------------------------------------------------
 
 * graceful reload
@@ -55,7 +58,7 @@ func main(){
     //You can check error in here.
 }
 ```
-3.Reload & Stop your server
+3. Reload & Stop your server
 
 ```shell
 #Reload
@@ -117,3 +120,25 @@ func main() {
 	refuel.Run()
 }
 ```
+
+6. Use you custom server
+
+```go
+package main
+
+import (
+	"af"
+	"net/http"
+)
+
+func main() {
+	server := &http.Server{
+		Addr:"8080",
+		Handler:http.DefaultServeMux,
+		//...
+	}
+	refuel := af.NewWithServer(server)
+	refuel.Run()
+}
+```
+
