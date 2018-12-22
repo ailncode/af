@@ -121,7 +121,7 @@ func main() {
 }
 ```
 
-6. Use you custom server
+6. Use your custom server
 
 ```go
 package main
