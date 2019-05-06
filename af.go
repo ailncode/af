@@ -17,6 +17,7 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
+	"path/filepath"
 	"reflect"
 	"syscall"
 	"time"
@@ -135,6 +136,12 @@ func (af *AF) Run() error {
 		}
 		af.signalHandle()
 	}(af)
+	f, err := os.OpenFile(fmt.Sprintf("/var/run/%s.pid", filepath.Base(os.Args[0])), os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	f.WriteString(fmt.Sprintf("%d", os.Getegid()))
 	log.Println(fmt.Sprintf("AF server is run at pid:%d", os.Getpid()))
 	err = af.server.Serve(af.listener)
 	return err
