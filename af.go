@@ -141,8 +141,7 @@ func (af *AF) Run() error {
 		return err
 	}
 	defer f.Close()
-	f.WriteString(fmt.Sprintf("%d", os.Getegid()))
-	f.Close()
+	f.WriteString(fmt.Sprintf("%d", os.Getpid()))
 	log.Println(fmt.Sprintf("AF server is run at pid:%d", os.Getpid()))
 	err = af.server.Serve(af.listener)
 	return err
