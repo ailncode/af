@@ -20,5 +20,5 @@ func (af *AF) defaultSignalHandle() {
 	}, syscall.SIGINT, syscall.SIGTERM)
 	af.HandleSignal(func(af *AF) {
 		log.Println(fmt.Sprintf("AF server is reload pid:%d err:%v", os.Getpid(), af.Reload()))
-	}, syscall.Signal(31))
+	}, syscall.SIGUSR2)
 }

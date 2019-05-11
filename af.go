@@ -4,7 +4,6 @@
 
 //Package af provides easy to use graceful restart a http server
 
-// +build linux darwin
 package af
 
 import (
@@ -20,7 +19,6 @@ import (
 	"os/signal"
 	"path/filepath"
 	"reflect"
-	"syscall"
 	"time"
 )
 
@@ -85,16 +83,6 @@ func (af *AF) init() error {
 	return err
 }
 
-//Give some default signal handler if AF' signalHandlerMap is nil
-func (af *AF) defaultSignalHandle() {
-	af.HandleSignal(func(af *AF) {
-		log.Println(fmt.Sprintf("AF server is shutdown pid:%d err:%v", os.Getpid(), af.Stop()))
-	}, syscall.SIGINT, syscall.SIGTERM)
-	af.HandleSignal(func(af *AF) {
-		log.Println(fmt.Sprintf("AF server is reload pid:%d err:%v", os.Getpid(), af.Reload()))
-	}, syscall.SIGUSR2)
-}
-
 //signal handle
 func (af *AF) signalHandle() {
 	signalChan := make(chan os.Signal, 1)
@@ -142,7 +130,7 @@ func (af *AF) Run() error {
 		return err
 	}
 	defer f.Close()
-	_,err = f.WriteString(fmt.Sprintf("%d", os.Getpid()))
+	_, err = f.WriteString(fmt.Sprintf("%d", os.Getpid()))
 	if err != nil {
 		log.Println(err)
 	}
