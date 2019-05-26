@@ -8,7 +8,7 @@ What is AF
 
 **AF only support the Linux system now.**
 
-Featuers
+Features
 -------------------------------------------------------------------------------------------------
 
 * graceful reload
