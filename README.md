@@ -6,7 +6,11 @@ What is AF
 
 *You can use the AF write a graceful reload HTTP server easily.*
 
-**AF only support the Linux system now.**
+Support
+-------------------------------------------------------------------------------------------------
+* Linux
+* OS X
+* Windows (only build)
 
 Features
 -------------------------------------------------------------------------------------------------
@@ -65,6 +69,7 @@ func main(){
 kill -USR2 <pid>
 #Stop
 kill -INT <pid> #or kill -TERM <pid>
+#AF wright the pid to file /var/run/{args[0]}.pid
 ```
 
 4. Use your custom Listen Address Handler ShutdownTimeOut
