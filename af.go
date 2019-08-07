@@ -161,7 +161,7 @@ func (af *AF) Reload() error {
 	}
 	args := os.Args
 	if !af.graceful {
-		args = append(args, "--graceful")
+		args = append(args, "-graceful")
 	}
 	cmd := exec.Command(args[0], args[1:]...)
 	cmd.Stdin = os.Stdin
