@@ -159,9 +159,9 @@ func (af *AF) Reload() error {
 	if err != nil {
 		return err
 	}
-	args := os.Args
+	args := make([]string,0)
 	if !af.graceful {
-		args = append(args, "-graceful")
+		args = append(append(args, "-graceful"),os.Args[1:]...)
 	}
 	cmd := exec.Command(args[0], args[1:]...)
 	cmd.Stdin = os.Stdin
