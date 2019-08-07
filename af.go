@@ -159,7 +159,7 @@ func (af *AF) Reload() error {
 	if err != nil {
 		return err
 	}
-	args := make([]string,0)
+	args := os.Args[0:1]
 	if !af.graceful {
 		args = append(append(args, "-graceful"),os.Args[1:]...)
 	}
