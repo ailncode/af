@@ -21,6 +21,10 @@ import (
 	"time"
 )
 
+var(
+	graceful *bool = flag.Bool("graceful", false, "listen on fd open 3 (internal use only)")
+)
+
 type AF struct {
 	Addr             string
 	Handler          http.Handler
@@ -29,7 +33,6 @@ type AF struct {
 	server           *http.Server
 	signalSlice      []os.Signal
 	signalHandlerMap map[os.Signal]func(*AF)
-	graceful         bool
 }
 
 //Get default AF
@@ -73,7 +76,7 @@ func (af *AF) init() error {
 		}
 	}
 	var err error
-	if af.graceful {
+	if *graceful {
 		f := os.NewFile(3, "")
 		af.listener, err = net.FileListener(f)
 	} else {
@@ -112,7 +115,6 @@ func (af *AF) HandleSignal(handler func(*AF), signals ...os.Signal) {
 
 //Run the AF
 func (af *AF) Run() error {
-	flag.BoolVar(&af.graceful, "graceful", false, "listen on fd open 3 (internal use only)")
 	flag.Parse()
 	var err error
 	if err = af.init(); err != nil {
@@ -147,7 +149,7 @@ func (af *AF) Reload() error {
 		return err
 	}
 	args := os.Args
-	if !af.graceful {
+	if !*graceful {
 		args = append(args, "-graceful")
 	}
 	cmd := exec.Command(args[0], args[1:]...)
