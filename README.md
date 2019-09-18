@@ -69,7 +69,6 @@ func main(){
 kill -USR2 <pid>
 #Stop
 kill -INT <pid> #or kill -TERM <pid>
-#AF wright the pid to file /var/run/{args[0]}.pid
 ```
 
 4. Use your custom Listen Address Handler ShutdownTimeOut
