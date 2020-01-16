@@ -16,7 +16,8 @@ import (
 //Give some default signal handler if AF' signalHandlerMap is nil
 func (af *AF) defaultSignalHandle() {
 	af.HandleSignal(func(af *AF) {
-		log.Println(fmt.Sprintf("AF server is shutdown pid:%d err:%v", os.Getpid(), af.Stop()))
+		log.Println(fmt.Sprintf("AF server is shutdown pid:%d", os.Getpid()))
+		af.Stop()
 	}, syscall.SIGINT, syscall.SIGTERM)
 	af.HandleSignal(func(af *AF) {
 		log.Println(fmt.Sprintf("AF server is reload pid:%d err:%v", os.Getpid(), af.Reload()))

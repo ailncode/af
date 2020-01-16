@@ -135,9 +135,13 @@ func (af *AF) Run() error {
 }
 
 //Stop the AF
-func (af *AF) Stop() error {
+func (af *AF) Stop() {
 	ctx, _ := context.WithTimeout(context.Background(), af.ShutdownTimeOut)
-	return af.server.Shutdown(ctx)
+	err := af.server.Shutdown(ctx)
+	if err==nil{
+		os.Exit(0)
+	}
+	os.Exit(1)
 }
 
 //Reload the AF
@@ -161,7 +165,7 @@ func (af *AF) Reload() error {
 	cmd.ExtraFiles = []*os.File{file}
 	err = cmd.Start()
 	if err == nil {
-		return af.Stop()
+		af.Stop()
 	}
 	return err
 }
