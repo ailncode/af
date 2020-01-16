@@ -10,7 +10,7 @@ Support
 -------------------------------------------------------------------------------------------------
 * Linux
 * OS X
-* Windows (only build)
+* Windows (only build and run)
 
 Features
 -------------------------------------------------------------------------------------------------
@@ -25,6 +25,8 @@ Install
 
 ```	go
 go get -u github.com/ailncode/af
+#or
+go mod edit -require=github.com/ailncode/af@latest
 ```
 
 Usage
@@ -33,7 +35,7 @@ Usage
 1. Import the AF
 
 ```go
-import github.com/ailncode/af
+import "github.com/ailncode/af"
 ```
 
 2. Simple use
@@ -77,9 +79,9 @@ kill -INT <pid> #or kill -TERM <pid>
 package main
 
 import(
-	"net/http"
+    "net/http"
     "time"
-	"github.com/ailncode/af"
+    "github.com/ailncode/af"
     "github.com/gin-gonic/gin"
 )
 
@@ -105,7 +107,7 @@ func main(){
 package main
 
 import (
-	"af"
+	"github.com/ailncode/af"
 	"syscall"
 	"time"
 )
@@ -115,12 +117,11 @@ func main() {
 	refuel.ShutdownTimeOut = time.Second * 10
 	refuel.HandleSignal(func(r *af.AF) {
 		r.Stop()
-		//You can check error in here
 	}, syscall.SIGINT, syscall.SIGTERM)
 	refuel.HandleSignal(func(r *af.AF) {
 		r.Reload()
 		//You can check error in here
-	})
+	}, syscall.SIGUSR2)
 	refuel.Run()
 }
 ```
