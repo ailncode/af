@@ -4,6 +4,8 @@
 
 //Package af provides easy to use graceful restart a http server
 
+// +build windows
+
 package af
 
 import (
@@ -21,5 +23,5 @@ func (af *AF) defaultSignalHandle() {
 	}, syscall.SIGINT, syscall.SIGTERM)
 	af.HandleSignal(func(af *AF) {
 		log.Println(fmt.Sprintf("AF server is reload pid:%d err:%v", os.Getpid(), af.Reload()))
-	}, syscall.SIGUSR2)
+	}, syscall.Signal(31))
 }

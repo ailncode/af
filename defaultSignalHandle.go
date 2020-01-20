@@ -4,6 +4,8 @@
 
 //Package af provides easy to use graceful restart a http server
 
+// +build !windows
+
 package af
 
 import (
