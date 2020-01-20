@@ -8,8 +8,7 @@ What is AF
 
 Support
 -------------------------------------------------------------------------------------------------
-* Linux
-* OS X
+* *nix
 * Windows (only build and run)
 
 Features
