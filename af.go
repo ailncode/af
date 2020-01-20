@@ -33,7 +33,6 @@ type AF struct {
 	server           *http.Server
 	signalSlice      []os.Signal
 	signalHandlerMap map[os.Signal]func(*AF)
-	errChan          chan error
 }
 
 //Get default AF
@@ -87,7 +86,7 @@ func (af *AF) init() error {
 }
 
 //signal handle
-func (af *AF) signalHandle() error{
+func (af *AF) signalHandle(){
 	signalChan := make(chan os.Signal, 1)
 	signal.Notify(signalChan, af.signalSlice...)
 	for {
@@ -97,8 +96,6 @@ func (af *AF) signalHandle() error{
 				f(af)
 			}
 			break
-			case err := <- af.errChan:
-				return err
 		}
 	}
 }
@@ -117,7 +114,7 @@ func (af *AF) HandleSignal(handler func(*AF), signals ...os.Signal) {
 }
 
 //Run the AF
-func (af *AF) Run() error {
+func (af *AF) Run()error{
 	flag.Parse()
 	var err error
 	if err = af.init(); err != nil {
@@ -126,12 +123,12 @@ func (af *AF) Run() error {
 	go func(af *AF) {
 		log.Println(fmt.Sprintf("AF server is run at pid:%d", os.Getpid()))
 		err = af.server.Serve(af.listener)
-		af.errChan <- err
 	}(af)
 	if af.signalHandlerMap == nil {
 		af.defaultSignalHandle()
 	}
-	return af.signalHandle()
+	af.signalHandle()
+	return nil
 }
 
 //Stop the AF
