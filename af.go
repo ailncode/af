@@ -35,6 +35,7 @@ type AF struct {
 	signalHandlerMap map[os.Signal]func(*AF)
 }
 
+A
 //Get default AF
 func Default() *AF {
 	return &AF{
@@ -143,6 +144,7 @@ func (af *AF) Stop() {
 
 //Reload the AF
 func (af *AF) Reload() error {
+	//listener
 	listener, ok := af.listener.(*net.TCPListener)
 	if !ok {
 		return errors.New("AF.listener type must be *net.TCPListener,but got type " + reflect.TypeOf(af.listener).Name())
