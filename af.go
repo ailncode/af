@@ -35,8 +35,7 @@ type AF struct {
 	signalHandlerMap map[os.Signal]func(*AF)
 }
 
-A
-//Get default AF
+// Default Get default AF
 func Default() *AF {
 	return &AF{
 		Addr:            ":8080",
@@ -44,7 +43,7 @@ func Default() *AF {
 	}
 }
 
-//Get AF with a http handler
+// NewWithHandler Get AF with a http handler
 func NewWithHandler(handler http.Handler) *AF {
 	return &AF{
 		Addr:            ":8080",
@@ -53,7 +52,7 @@ func NewWithHandler(handler http.Handler) *AF {
 	}
 }
 
-//Get AF with a http server
+// NewWithServer Get AF with a http server
 func NewWithServer(server *http.Server) *AF {
 	return &AF{
 		server:          server,
@@ -101,7 +100,7 @@ func (af *AF) signalHandle(){
 	}
 }
 
-//Give a handler for signals
+// HandleSignal Give a handler for signals
 func (af *AF) HandleSignal(handler func(*AF), signals ...os.Signal) {
 	if af.signalHandlerMap == nil {
 		af.signalHandlerMap = make(map[os.Signal]func(*AF))
