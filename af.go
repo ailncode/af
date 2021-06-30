@@ -21,7 +21,7 @@ import (
 	"time"
 )
 
-var(
+var (
 	graceful *bool = flag.Bool("graceful", false, "listen on fd open 3 (internal use only)")
 )
 
@@ -86,7 +86,7 @@ func (af *AF) init() error {
 }
 
 //signal handle
-func (af *AF) signalHandle(){
+func (af *AF) signalHandle() {
 	signalChan := make(chan os.Signal, 1)
 	signal.Notify(signalChan, af.signalSlice...)
 	for {
@@ -114,7 +114,7 @@ func (af *AF) HandleSignal(handler func(*AF), signals ...os.Signal) {
 }
 
 //Run the AF
-func (af *AF) Run()error{
+func (af *AF) Run() error {
 	flag.Parse()
 	var err error
 	if err = af.init(); err != nil {
@@ -135,7 +135,7 @@ func (af *AF) Run()error{
 func (af *AF) Stop() {
 	ctx, _ := context.WithTimeout(context.Background(), af.ShutdownTimeOut)
 	err := af.server.Shutdown(ctx)
-	if err==nil{
+	if err == nil {
 		os.Exit(0)
 	}
 	os.Exit(1)
