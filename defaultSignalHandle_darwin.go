@@ -4,7 +4,7 @@
 
 //Package af provides easy to use graceful restart a http server
 
-// +build linux
+// +build darwin
 
 package af
 
